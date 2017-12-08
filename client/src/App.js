@@ -15,15 +15,13 @@ class App extends Component {
   }
 
   addSong = (song) => {
-    console.log(this.state.songs)
-    console.log('here')
     axios.post('/api/songs', { song })
       .then( res => {
         const { songs } = this.state
         this.setState({ songs: [...songs, res.data], error: false })
       })
-      .catch( errors => {
-        this.setState({ error: 'Rank must be unique' })
+      .catch( error => {
+        this.setState({ error: error.response.data.errors})
       })
   }
 
@@ -39,7 +37,7 @@ class App extends Component {
         this.setState({ songs, error: false })
       })
       .catch( error => {
-        this.setState({ error: 'rank must be unique'})
+        this.setState({ error: error.response.data.errors})
       })
   }
 
@@ -57,7 +55,7 @@ class App extends Component {
       <Container>
         <h1>Top 100 Music billboard</h1>
         { this.state.error &&
-          <Message negative>
+          <Message negative compact>
             <Message.Header>{this.state.error}</Message.Header>
           </Message> }
         <SongForm addSong={this.addSong} />

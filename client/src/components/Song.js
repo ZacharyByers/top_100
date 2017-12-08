@@ -12,7 +12,10 @@ class Song extends React.Component {
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
-  toggleEditing = () => {
+  toggleEditing = (cancel = false) => {
+    const { minutes, seconds, rank } = this.props
+    if (cancel)
+      this.setState({ minutes, seconds, rank })
     const {editing} = this.state
     this.setState({ editing: !editing })
   }
@@ -48,19 +51,19 @@ class Song extends React.Component {
 
     const time = `${minutes}:${secs}`
     return (
-      <Grid.Column width='16'>
+      <Grid.Row>
         <Grid.Column width='6'>
           <h3>{rank})</h3>
         </Grid.Column>
         <Grid.Column width='6'>
-          title: {title}
+          Title: {title}
         </Grid.Column>
         <Grid.Column width='3'>
-          length: { time }
+          Length: { time }
         </Grid.Column>
         <Button onClick={this.toggleEditing} size='mini' color='blue'>Edit</Button>
         <Button onClick={() => deleteSong(id)} size='mini' color='red'>Delete</Button>
-      </Grid.Column>
+      </Grid.Row>
     )
   }
 
@@ -73,7 +76,7 @@ class Song extends React.Component {
           <Form.Input onChange={this.handleChange} name='minutes' label='Minutes' value={this.state.minutes} required />
           <Form.Input onChange={this.handleChange} name='seconds' label='Seconds' value={this.state.seconds} required />
           <Form.Input onChange={this.handleChange} name='rank' label='Rank' value={this.state.rank} required />
-          <Button color='grey' onClick={this.toggleEditing} size='mini'>Cancel</Button>
+          <Button color='grey' onClick={() => this.toggleEditing(true)} size='mini'>Cancel</Button>
           <Button color='blue' type='submit' onClick={this.handleSubmit} size='mini'>Save</Button>
         </Form.Group>
       </Form>

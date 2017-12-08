@@ -10,7 +10,7 @@ class Api::SongsController < ApplicationController
     if song.save
       render json: song
     else
-      render json: { errors: song.errors }, status: 422
+      render json: { errors: song.errors.full_messages.join(',') }, status: 422
     end
   end
 
@@ -18,7 +18,7 @@ class Api::SongsController < ApplicationController
     if @song.update(song_params)
       render json: @song
     else
-      render json: { errors: song.errors }, status: 422
+      render json: { errors: @song.errors.full_messages.join(', ') }, status: 422
     end
   end
 
