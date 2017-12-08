@@ -6,3 +6,12 @@
 #submit-button {
   float: left;
 }
+
+.song-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.blank {
+  white-space: pre;
+}
